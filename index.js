@@ -1,14 +1,31 @@
-const http = require("http");
+import express from "express";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
+dotenv.config();
 
-const hostname = "localhost";
-const port = 3000;
+const app = express();
+const { PORT, NODE_ENV, HOST } = process.env;
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "text/plain");
-  res.end("Hello World\n");
+app.use(bodyParser.json());
+
+app.get("/", (req, res) => {
+  res.send("Hello World");
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+app.post("/events", (req, res) => {
+  const payload = req.body;
+
+  console.log(payload);
+
+  // Check if the webhook event is a push to the production branch
+  if (payload.ref === "refs/heads/main") {
+    console.log("Received a push event on the prod branch");
+    // TODO: Add your code to handle the push event
+  }
+
+  res.status(200).send("OK");
+});
+
+app.listen(PORT, HOST, () => {
+  console.log(`Server is running on http://${HOST}:${PORT}`);
 });
