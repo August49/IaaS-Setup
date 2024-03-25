@@ -11,7 +11,7 @@ Prerequisites:
 
 This repository contains a step-by-step setup your own of a Virtual Private Server (VPS) instance that will be running Ubuntu 20.04.6 LTS for hosting web applications. It covers the following topics:
 
-#### [Setting up and securing a virtual private server](./2.securing-the-vps-instance.md)
+#### [Setting up and securing a virtual private server](./docs/2.securing-the-vps-instance.md)
 
 #### [ Installing and configuring a web server (Nginx) and ssl certificate](./3.web-server.md)
 
