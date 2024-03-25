@@ -6,7 +6,8 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
-
+*.sh
+*.sh.*
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 bin/
@@ -17,7 +18,11 @@ bin/
 *.sh
 *.sh.*
 play.js
+<<<<<<< HEAD
 
+=======
+webhook.*
+>>>>>>> 21835cc6e4a8cc938f21eec312911532647c7cb5
 # Runtime data
 pids
 *.pid
