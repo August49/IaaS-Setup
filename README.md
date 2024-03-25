@@ -15,6 +15,14 @@ This repository contains a step-by-step setup your own of a Virtual Private Serv
 
 #### [Setting up a web server](#setting-up-a-web-server)
 
+#### [Installing node and setting up version control](#installing-node-and-setting-up-version-control)
+
+#### [Create a sample web application](#create-a-sample-web-application)
+
+#### [Configuring a reverse proxy server (Nginx)](#configuring-a-reverse-proxy-server-nginx)
+
+#### [Setting up a CI/CD pipeline with GitHub Actions: Webhooks and WebSockets](#setting-up-a-cicd-pipeline-with-github-actions-webhooks-and-websockets)
+
 Disclaimer: This guide is intended for informational purposes only and may ideal if you are setting up a VPS instance for personal use or for a small-scale web application. If you are setting up a VPS instance for a production environment or for a large-scale web application, you may need to consult with a professional sysadmin or DevOps engineer to ensure that your infrastructure is secure, scalable, and reliable.
 
 ## Setting up a Virtual Private Server (VPS) Instance (Ubuntu 20.04.6 LTS)
@@ -101,7 +109,7 @@ ssh azure # or whatever alias you specified in the config file
 
 # Setting up and securing a virtual private server
 
-## Keep your system up to date
+## 1. Keep your system up to date
 
 ```bash
 sudo apt update # update the package list
@@ -113,7 +121,7 @@ sudo shutdown -r now # restart your system then ssh back in
 
 you can also use a cron job to automatically update your system but this is not recommended for production servers. whatever way you choose to update your system, make sure you do it regularly and run them in a test environment before running them in production.
 
-## Disable root Login and Password Authentication
+## 2. Disable root Login and Password Authentication
 
 Create a new user and disable root login and password authentication on virtual private server. this might be disable by default on some cloud providers. You can check if that is the case by running the following command:
 
@@ -179,7 +187,7 @@ sudo systemctl restart ssh
 
 When you make changes to the sshd_config file, you need to restart the ssh service for the changes to take effect and try ssh into the remote machine using the new user, or else you may be locked out of your server.
 
-## Setup your firewall on ubuntu using ufw:
+## 3. Setup your firewall on ubuntu using ufw:
 
 ```bash
 sudo ufw status
@@ -221,7 +229,7 @@ maxretry = 3
 bantime = 600
 ```
 
-## Other security measures you can take include:
+## 5. Other security measures you can take include:
 
 - Setting up a VPN
 - Use security scanners like Nessus, OpenVAS, etc
@@ -247,7 +255,6 @@ visit [failBan](https://www.fail2ban.org/wiki/index.php/Main_Page) for more info
 visit [SSH Config](https://www.ssh.com/academy/ssh) for more information
 
 visit [Linux Bible](https://www.amazon.com/Linux-Bible-Christopher-Negus/dp/111821854X) for more information
-
 
 # Setting up a web server
 
@@ -321,5 +328,388 @@ sudo systemctl restart nginx
 ```
 
 visit [Certbot](https://certbot.eff.org/) to get a free SSL certificate for your domain name.
+
 check the site for the latest instructions on how to install certbot on your server.
 
+# Installing node and setting up version control
+
+## Node.js Setup
+
+As we're setting up a node application we'll have to install node on our vps
+by running the following commands:
+
+```bash
+curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+## Setting up version control
+
+We'll use git to clone our nodejs application from github. If you don't have git installed on your vps, you can install it by running the following command:
+
+```bash
+sudo apt-get install git
+```
+
+Configure your git username and email by running the following commands:
+
+```bash
+git config --global user.name "yourName"
+git config --global user.email "test@gmail.com"
+```
+
+Configure your SSH key on your vps that will be used to authenticate with github. If you don't have an SSH key, you can generate one by running the following command:
+
+```bash
+cd ~/.ssh
+sudo  ssh-keygen -t rsa -b 4096 -C "yourMail@gmail.com" # Generate a new SSH key and copy the public key to github
+```
+
+copy the public key to github by running the following command:
+
+```bash
+cat ~/.ssh/yourPublicKey.pub
+```
+
+Change the permissions of the .ssh directory to read, write, and execute for the owner and no permissions for others by running the following command:
+
+```bash
+sudo chmod 700 ~/.ssh
+sudo chmod 600 yourGithubPrivateKey # generated on your vps
+sudo chown $USER:$USER yourGithubPrivateKey # change the owner of the private key to the current user
+ssh -i yourGithubPrivateKey git@github.com # test the connection
+```
+
+Add the private key to the ssh-agent to avoid entering the passphrase every time you connect to the remote.
+Navigate to the .ssh directory and create a new config file
+
+```bash
+nano config
+```
+
+Add the following configuration to the file:
+
+```bash
+Host github.com # an alias for the remote machine (you can use any name you want)
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/yourGithubPrivateKey
+```
+
+Secure and restrict access to the ~/.ssh/config file by running the following command:
+
+```bash
+chmod 600 ~/.ssh/config
+chmod 600 ~/.ssh/yourGithubPrivateKey
+chown $USER:$USER ~/.ssh/yourGithubPrivateKey
+```
+
+```bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/yourGithubPrivateKey
+ssh  github.com
+```
+
+Create and clone a repository
+
+```bash
+sudo chown -R $USER:$USER /var/www # change the owner of the /var/www directory to the current user
+cd /var/www
+git clone git@github.com:August49/IaaS-Setup.git # clone the repository
+sudo chown -R $USER:$USER /var/www/IaaS-Setup # change the owner of the cloned repository to the current user
+```
+
+# Create a sample web application
+
+## Setting up a simple web application on your local machine
+
+on your local machine, clone the repository by running the following command:
+
+```bash
+git clone  https://github.com/August49/IaaS-Setup.git
+cd IaaS-Setup
+```
+
+create a new branch and switch to it by running the following command:
+
+```bash
+git checkout -b feature/your-feature-name
+```
+
+create an index.js file and write a simple hello world web application by running the following command:
+
+```bash
+touch index.js
+```
+
+Add the following code to the index.js file:
+
+```javascript
+const http = require("http");
+
+const hostname = "localhost";
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader("Content-Type", "text/plain");
+  res.end("Hello World\n");
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+```
+
+run the application by running the following command:
+
+```bash
+node index.js
+```
+
+visit http://localhost:3000/ in your browser to see the hello world message.
+
+commit your changes and push them to the remote repository by running the following command:
+
+```bash
+git add .
+git commit -m "Add a simple hello world web application"
+git push origin feature/your-feature-name
+```
+
+Since you are on a new branch, you can create a pull request on by visiting the repository on GitHub and clicking on the "New pull request" button. Once the pull request is approved, you can merge it into the main branch.
+
+## Deploy the application to the VM
+
+on the VM, navigate to the /var/www/IaaS-Setup directory and pull the changes by running the following command:
+
+```bash
+cd /var/www/IaaS-Setup
+git pull
+node index.js
+```
+
+# Configuring a reverse proxy server (Nginx)
+
+set up a reverse proxy server using Nginx to forward requests from the client to the Node.js application server running on port 3000. The reverse proxy server will listen on port 80 and forward the requests to the Node.js application server running on port 3000.
+
+In the server block created in the previous step, add the following configuration to set up a reverse proxy server:
+
+```bash
+sudo nano /etc/nginx/sites-enabled/your_domain_name.com
+```
+
+```bash
+#rest of the content
+
+#new content
+  location / {
+    proxy_pass http://localhost:3000; # your application server
+    proxy_http_version 1.1;            #enable http1.1
+    proxy_set_header Upgrade $http_upgrade; #enable websocket
+    proxy_set_header Connection 'upgrade'; #enable websocket
+    proxy_set_header Host $host; #set the host header
+    proxy_cache_bypass $http_upgrade; #bypass the cache
+    proxy_set_header X-Real-IP $remote_addr; #pass the original client ip
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; #identify the client ip
+    proxy_set_header X-Forwarded-Proto $scheme; #identify the protocol
+    proxy_set_header X-Forwarded-Host $host; #identify the host
+    proxy_set_header X-Forwarded-Port $server_port; #identify the port
+    proxy_set_header X-Forwarded-Server $host; #identify the server
+  }
+
+#rest of the content
+
+```
+
+The X-forwarded-\* headers are useful for logging and security purposes.
+
+restart the Nginx service to apply the changes by running the following command:
+
+```bash
+sudo systemctl restart nginx
+node index.js # run the application then visit your_domain_name.com in your browser to see the hello world message.
+```
+
+Install pm2 to manage and keep the Node.js application running in the background by running the following command:
+
+```bash
+sudo npm install pm2 -g
+pm2 start index.js --name my-app
+pm2 logs my-app
+pm2 save
+pm2 startup
+```
+
+With pm2 in place, you can manage the application lifecycle, monitor the application, and automatically restart the application if it crashes.
+
+For security reasons, you can disable the default Nginx configuration and enable sites that are actively in use by running the following command:
+
+```bash
+sudo unlink /etc/nginx/sites-enabled/default
+sudo nano /etc/nginx/nginx.conf
+```
+
+Add the following line to the http block:
+
+```bash
+# Virtual Host Configs
+include /etc/nginx/conf.d/*.conf;
+include /etc/nginx/sites-enabled/your_domain_name.com;
+```
+
+Check the nginx configuration file for syntax errors by running the following command:
+
+```bash
+sudo nginx -t
+sudo systemctl restart nginx
+```
+
+visit your_domain_name.com in your browser to confirm that the reverse proxy server is working as expected.
+
+# Setting up a CI/CD pipeline with GitHub Actions: Webhooks and WebSockets
+
+## 1. Environment Variables
+
+The best way to keep configuration out of an application’s codebase is to provide such values via environment variables. This way, a compromised code repository shouldn’t lead to sensitive data being stolen.
+
+Note: If you are using a cloud provider like AWS, Google Cloud, Azure, etc., you can use their services to manage your environment variables or use a service like Doppler. In our case, we will be using a .env file to store our environment variables.
+
+Before creating the .env file, you need a .gitignore file to prevent the .env file from being pushed to the remote repository. The best create this is by on vscode: ctrl + shift + p, then type gitignore, then select the template for your project.
+
+```bash
+touch .env # you need an .env both locally and on the server(or use a service like Doppler)
+```
+
+## 2. Setting up a CI/CD Pipeline
+
+Continuous Integration/Continuous Deployment (CI/CD) is event-driven. It's based on the idea that certain actions or "events" in the development process trigger other actions. For example, when a developer pushes code to a repository, a CI/CD pipeline can automatically run tests, build the application, and deploy it to a server.
+
+we can automate the process of testing, building, and deploying our application by:
+
+- setting up a cron job to run a script at a specific time, though not scalable and recommended.
+- we can use pub/sub services like webhooks, Google Cloud Pub/Sub etc. This allows use to trigger a action only when a specific event occurs unlike cron jobs that continuously run even when there is no event.
+
+### CI/CD Pipeline with GitHub Actions
+
+#### 1. Create a GitHub workflow
+
+create a github action workflow by creating a new directory called .github/workflows in the root of your project and add a new file called ci-cd.yml. Add the following configuration to the ci-cd.yml file:
+
+```bash
+mkdir -p .github/workflows
+touch .github/workflows/ci-cd.yml
+```
+
+```bash
+name: CI-CD-Workflow # name of the workflow
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: npm test # will be using vitest as the test runner
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+```
+
+This workflow will fail if you don't have a test script in your package.json file.
+
+```bash
+npm install vitest # install vitest on your local machine
+```
+
+then add the test script to your package.json file
+
+```bash
+"scripts": {
+  "test": "vitest"
+}
+```
+
+Then create a new directory called test in the root of your project and add a new file called test.js. Add the following basic test to the test.js file:
+
+```bash
+import { describe, it, expect } from "vitest";
+
+describe("Basic test", () => {
+  it("should return true", () => {
+    expect(true).toBe(true);
+  });
+});
+```
+
+Use a tool like act to test your workflow locally before pushing it to the GitHub repository.
+
+```bash
+wget  https://github.com/nektos/act/releases/download/v0.2.60/act_Linux_arm64.tar.gz # download the act binary. check the latest version on the act releases page
+tar xvf act_Linux_arm64.tar.gz # extract the act binary
+sudo mv act /usr/local/bin # move the act binary to the /usr/local/bin directory
+act --version # check the version of act
+cd - # go back to the previous directory(project directory)
+act
+```
+
+#### 2. Setting up a webhook to listen to events from the GitHub repository
+
+1. Webhooks vs WebSockets
+   Webhooks and WebSockets are two different ways of sending data between a client and a server. Webhooks are HTTP callbacks that are triggered by specific events, while WebSockets are a communication protocol that allows for real-time, bidirectional communication between a client and a server.
+
+To create a webhook to listen to you prod branch, you need
+
+- a webhook url : This url should added to the GitHub repository, it will be used to send events or notifications to your prod environment or whatever environment you want to listen to.
+- Listener or handler: This is a server that listens to the events sent by the webhook url, then triggers a series of actions or events based on the event received, such as running tests, building the application, deploying the application, etc.
+- protect your main branch by setting up branch protection rules in the GitHub repository settings. This will prevent anyone from pushing directly to the main branch and require that all changes be made through pull requests.
+
+##### webhook url
+
+This should be your domain name and the path to the webhook listener script.
+
+```bash
+https://your_domain_name.com/webhook #add this to the GitHub repository webhook settings.
+```
+
+You can block all traffic for this endpoint except for the GitHub IP addresses and authorized users by using a tool like Cloudflare Access or a reverse proxy server like Nginx or add a secret key to the webhook url.
+
+```bash
+https://your_domain_name.com/webhook?secret=yourSecretKey #add this to the GitHub repository webhook settings.
+```
+
+##### Listener or handler
+
+```bash
+#add the secret key to the webhook listener script
+import express from "express";
+
+const app = express();
+
+const secret = process.env.SECRET_KEY;
+
+app.post("/webhook", (req, res) => {
+  if(!req.query.secret || req.query.secret !== secret) {
+    return res.status(401).send("Unauthorized");
+  } # better block this traffic at the reverse proxy server level or use a tool like Cloudflare Access
+  const payload = req.body;
+
+  if(payload.ref === "refs/heads/prod") {
+    console.log("🚀 prod branch has been pushed to");
+    //TODO: handle the event : send an email, run tests, build the application, deploy the application, etc.
+
+  }
+res.status(200).send("OK");
+});
+```
+
+Note: If your deployment process involves proprietary information or complex processes that you do not want to make public, you might want to consider keeping the deployment scripts in a private repository or using a private CI/CD tool.
+
+you can also use a tool like smee to create a webhook proxy that will forward the events from the GitHub repository to your local machine.
+
+```bash
+smee --url https://smee.io/yourSmeeUrl --target http://localhost:portNumber/webhook
+```
