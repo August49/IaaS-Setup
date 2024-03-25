@@ -5,7 +5,7 @@ import fs from "fs";
 import { exec } from "child_process";
 dotenv.config(); 
   
-const app = express(); 
+const app = express();  
 const { PORT, NODE_ENV, HOST } = process.env; 
  
 app.use(bodyParser.json());  
