@@ -101,7 +101,7 @@ ssh azure # or whatever alias you specified in the config file
 
 # Setting up and securing a virtual private server
 
-## 1. Keep your system up to date
+## Keep your system up to date
 
 ```bash
 sudo apt update # update the package list
@@ -113,7 +113,7 @@ sudo shutdown -r now # restart your system then ssh back in
 
 you can also use a cron job to automatically update your system but this is not recommended for production servers. whatever way you choose to update your system, make sure you do it regularly and run them in a test environment before running them in production.
 
-## 2. Disable root Login and Password Authentication
+## Disable root Login and Password Authentication
 
 Create a new user and disable root login and password authentication on virtual private server. this might be disable by default on some cloud providers. You can check if that is the case by running the following command:
 
@@ -179,7 +179,7 @@ sudo systemctl restart ssh
 
 When you make changes to the sshd_config file, you need to restart the ssh service for the changes to take effect and try ssh into the remote machine using the new user, or else you may be locked out of your server.
 
-## 3. Setup your firewall on ubuntu using ufw:
+## Setup your firewall on ubuntu using ufw:
 
 ```bash
 sudo ufw status
@@ -221,7 +221,7 @@ maxretry = 3
 bantime = 600
 ```
 
-## 5. Other security measures you can take include:
+## Other security measures you can take include:
 
 - Setting up a VPN
 - Use security scanners like Nessus, OpenVAS, etc
@@ -250,3 +250,76 @@ visit [Linux Bible](https://www.amazon.com/Linux-Bible-Christopher-Negus/dp/1118
 
 
 # Setting up a web server
+
+## Installing and configuring a web server (Nginx) and ssl certificate
+
+Nginx is a popular open-source web server that is known for its high performance, stability, and scalability. It is commonly used to serve static content, reverse proxy to other servers, and load balance incoming traffic.
+
+```bash
+sudo apt update
+sudo apt install nginx
+sudo systemctl status nginx
+sudo systemctl start nginx # if not running
+
+```
+
+You can check if Nginx is running by visiting your server's public IP address in a web browser. You should see the default Nginx landing page. confirm that the firewall is working by rejecting all incoming traffic on port 80.
+
+```bash
+sudo ufw reject 80
+sudo ufw status
+sudo ufw reload
+sudo systemctl restart nginx
+```
+
+refresh the page and you should see a connection error(This site can't be reached). You need to serve
+your traffic on port 443 (https) instead of port 80 (http) to secure your traffic. but before that, you need to a domain name and an SSL certificate.
+
+Buy a domain name from any domain registrar of your choice. You can use name.com, GoDaddy, Google Domains, etc. Once you have purchased a domain name, you can configure it to point to your server's IP address.You can also use a free domain name from services like Freenom. You need a domain name to get an SSL certificate.
+
+Create New file in the sites-enabled directory with your domain name as the filename by running the following command:
+
+```bash
+sudo nano /etc/nginx/sites-enabled/your_domain_name.com
+```
+
+```bash
+server {
+  listen 80;
+  listen [::]:80;
+  server_name your_domain_name.com;
+
+  root /var/www/html;
+  index index.html;
+
+  location / {
+    try_files $uri $uri/ =404;
+  }
+}
+```
+
+configure your ssl certificate by running the following command:
+
+```bash
+sudo apt-get remove certbot
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx # For this command to work, you need to re-enable port 80 on your firewall
+sudo certbot renew --dry-run
+```
+
+Before you access your website using using https://your_domain_name.com, you need to point your domain name to your server's IP address. You can do this by adding an A record to your domain registrar's DNS settings.
+
+You can now access your website using https://your_domain_name.com.
+Next, disable port 80 on traffic by running the following command:
+
+```bash
+sudo ufw reject 80
+sudo ufw status
+sudo ufw reload
+sudo systemctl restart nginx
+```
+
+visit [Certbot](https://certbot.eff.org/) to get a free SSL certificate for your domain name.
+check the site for the latest instructions on how to install certbot on your server.
+
