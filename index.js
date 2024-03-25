@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
   res.send("Running Github Webhook Server");
-});
+}); 
 
 app.post("/events", (req, res) => {
   const payload = req.body;
