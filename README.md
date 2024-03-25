@@ -235,8 +235,13 @@ No “silver bullet” exists for information system security, but a series of m
 You need all the security measures you can get, an attacker only needs to find one vulnerability to exploit your system.
 
 visit [OWASP](https://owasp.org/www-community/) to learn more about web security.
+
 visit [cloudflare](https://www.cloudflare.com/) for more information
+
 visit [NIST](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-123.pdf) for more information on cybersecurity.
+
 visit [failBan](https://www.fail2ban.org/wiki/index.php/Main_Page) for more information on fail2ban.
+
 visit [SSH Config](https://www.ssh.com/academy/ssh) for more information
+
 visit [Linux Bible](https://www.amazon.com/Linux-Bible-Christopher-Negus/dp/111821854X) for more information
