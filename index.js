@@ -6,7 +6,7 @@ const app = express();
 const { PORT, NODE_ENV, HOST } = process.env; 
  
   
-app.get("/", (req, res) => { 
+app.get("/", (req, res) => {  
   res.send("Hello world");
 }); 
 
