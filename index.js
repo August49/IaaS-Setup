@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();  
 const { PORT, NODE_ENV, HOST } = process.env; 
  
-app.use(bodyParser.json());  
+app.use(bodyParser.json());   
  
 app.get("/", (req, res) => {  
   res.send("Running Github Webhook Server");  
