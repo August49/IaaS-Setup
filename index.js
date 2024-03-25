@@ -8,7 +8,7 @@ const { PORT, NODE_ENV, HOST } = process.env;
  
 app.get("/", (req, res) => { 
   res.send("Hello world");
-});
+}); 
 
 
 app.listen(PORT, HOST, () => {
