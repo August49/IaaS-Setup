@@ -17,6 +17,7 @@ bin/
 .env.*
 *.sh
 *.sh.*
+play.js
 
 # Runtime data
 pids
