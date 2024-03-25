@@ -7,10 +7,6 @@ Prerequisites:
 - A basic understanding of cloud computing concepts
 - A basic understanding of Cryptography and Network Security
 
-# Introduction
-
-This repository contains a step-by-step setup your own of a Virtual Private Server (VPS) instance that will be running Ubuntu 20.04.6 LTS for hosting web applications. It covers the following topics:
-
 #### [Setting up and securing a virtual private server](#setting-up-and-securing-a-virtual-private-server)
 
 #### [Setting up a web server](#setting-up-a-web-server)
@@ -22,6 +18,25 @@ This repository contains a step-by-step setup your own of a Virtual Private Serv
 #### [Configuring a reverse proxy server (Nginx)](#configuring-a-reverse-proxy-server-nginx)
 
 #### [Setting up a CI/CD pipeline with GitHub Actions: Webhooks and WebSockets](#setting-up-a-cicd-pipeline-with-github-actions-webhooks-and-websockets)
+
+#### [Setting up a load balancer and caching system](#Introduction)
+
+
+#### [Setting up a containerization and Kubernetes](#Introduction)
+
+#### [Setting up a monitoring and logging system](#Introduction)
+
+#### [Setting up a database server (PostgreSQL)](#Introduction)
+
+#### [Conclusion](./8.conclusion.md)
+
+#### [Resources and references](#Introduction)
+
+# Introduction
+
+This repository contains a step-by-step setup your own of a Virtual Private Server (VPS) instance that will be running Ubuntu 20.04.6 LTS for hosting web applications. It covers the following topics:
+
+
 
 Disclaimer: This guide is intended for informational purposes only and may ideal if you are setting up a VPS instance for personal use or for a small-scale web application. If you are setting up a VPS instance for a production environment or for a large-scale web application, you may need to consult with a professional sysadmin or DevOps engineer to ensure that your infrastructure is secure, scalable, and reliable.
 
