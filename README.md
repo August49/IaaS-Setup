@@ -11,25 +11,7 @@ Prerequisites:
 
 This repository contains a step-by-step setup your own of a Virtual Private Server (VPS) instance that will be running Ubuntu 20.04.6 LTS for hosting web applications. It covers the following topics:
 
-#### [Setting up and securing a virtual private server](./2.securing-the-vps-instance.md)
-
-#### [ Installing and configuring a web server (Nginx) and ssl certificate](./3.web-server.md)
-
-#### [Installing node and setting up version control](./4.setup-application.md)
-
-#### [Create a sample web application](./5.Create-a-sample-web-application.md)
-
-#### [Setting up a reverse proxy server](./6.Setting-up-a-reverse-proxy-server.md)
-
-#### [Setting up a CI/CD pipeline with GitHub Actions: Webhooks and WebSockets](./7.ci-cd.md)
-
-- Continuous integration and deployment (CI/CD with GitHub Actions)
-- Installing and configuring a database server (PostgreSQL)
-- Monitoring and logging
-- Load balancing and caching
-- Containerization and Kubernetes
-- Resources and references
-- Glossary of terms
+- [Setting up and securing a virtual private server](#setting-up-and-securing-a-virtual-private-server)
 
 Disclaimer: This guide is intended for informational purposes only and may ideal if you are setting up a VPS instance for personal use or for a small-scale web application. If you are setting up a VPS instance for a production environment or for a large-scale web application, you may need to consult with a professional sysadmin or DevOps engineer to ensure that your infrastructure is secure, scalable, and reliable.
 
@@ -114,13 +96,6 @@ Now you can connect to the remote machine using the alias you specified in the c
 ```bash
 ssh azure # or whatever alias you specified in the config file
 ```
-
-next page: [Setting up and securing a virtual private server](./2.securing-the-vps-instance.md)
-
-visit [SSH Config](https://www.ssh.com/academy/ssh) for more information
-
-visit [Linux Bible](https://www.amazon.com/Linux-Bible-Christopher-Negus/dp/111821854X) for more information
-
 
 # Setting up and securing a virtual private server
 
@@ -259,12 +234,9 @@ No “silver bullet” exists for information system security, but a series of m
 
 You need all the security measures you can get, an attacker only needs to find one vulnerability to exploit your system.
 
-next page: [Installing and configuring a web server (Nginx) and ssl certificate](3.web-server.md)
-previous page: [introduction](1.intro.md)
-
-visit [Ubuntu Security](https://ubuntu.com/security) for more information on securing your Ubuntu server.
 visit [OWASP](https://owasp.org/www-community/) to learn more about web security.
 visit [cloudflare](https://www.cloudflare.com/) for more information
 visit [NIST](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-123.pdf) for more information on cybersecurity.
 visit [failBan](https://www.fail2ban.org/wiki/index.php/Main_Page) for more information on fail2ban.
+visit [SSH Config](https://www.ssh.com/academy/ssh) for more information
 visit [Linux Bible](https://www.amazon.com/Linux-Bible-Christopher-Negus/dp/111821854X) for more information
