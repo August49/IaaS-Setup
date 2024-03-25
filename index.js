@@ -1,56 +1,15 @@
 import express from "express";
-import bodyParser from "body-parser";
 import dotenv from "dotenv";
-import fs from "fs";
-import { exec } from "child_process";
 dotenv.config();
 
 const app = express();
 const { PORT, NODE_ENV, HOST } = process.env; 
 
-app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
 
-app.post("/events", (req, res) => {
-  const payload = req.body;
-
-  console.log(payload);
-
-  // Check if the webhook event is a push to the production branch
-  if (payload.ref === "refs/heads/main") {
-    console.log("Received a push event on the prod branch");
-    // TODO: Add your code to handle the push event
-    // run the deployment script
-    exec("bash /var/www/IaaS-Setup/deploy.sh", (error, stdout, stderr) => {
-      if (error) {
-        console.error(`exec error: ${error}`);
-        return;
-      }
-      console.log(`stdout: ${stdout}`);
-      console.error(`stderr: ${stderr}`);
-    });
-
-    const interval = setInterval(() => {
-      if (!fs.existsSync("/tmp/deploy.lock")) {
-        clearInterval(interval);
-        // Restart the PM2 processes
-        exec("pm2 restart all", (error, stdout, stderr) => {
-          if (error) {
-            console.error(`exec error: ${error}`);
-            return;
-          }
-          console.log(`stdout: ${stdout}`);
-          console.error(`stderr: ${stderr}`);
-        });
-      }
-    }, 1000);
-  }
-
-  res.status(200).send("OK");
-});
 
 app.listen(PORT, HOST, () => {
   console.log(`Server is running on http://${HOST}:${PORT}`);
