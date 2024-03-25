@@ -11,7 +11,7 @@ const { PORT, NODE_ENV, HOST } = process.env;
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-  res.send("Running Github Webhook Server");
+  res.send("Hello world");
 });
 
 app.post("/events", (req, res) => {
