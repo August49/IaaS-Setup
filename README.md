@@ -11,7 +11,9 @@ Prerequisites:
 
 This repository contains a step-by-step setup your own of a Virtual Private Server (VPS) instance that will be running Ubuntu 20.04.6 LTS for hosting web applications. It covers the following topics:
 
-- [Setting up and securing a virtual private server](#setting-up-and-securing-a-virtual-private-server)
+#### [Setting up and securing a virtual private server](#setting-up-and-securing-a-virtual-private-server)
+
+#### [Setting up a web server](#setting-up-a-web-server)
 
 Disclaimer: This guide is intended for informational purposes only and may ideal if you are setting up a VPS instance for personal use or for a small-scale web application. If you are setting up a VPS instance for a production environment or for a large-scale web application, you may need to consult with a professional sysadmin or DevOps engineer to ensure that your infrastructure is secure, scalable, and reliable.
 
