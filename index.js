@@ -23,7 +23,7 @@ app.post("/events", (req, res) => {
     console.log("Received a push event on the prod branch");
     // TODO: Add your code to handle the push event
     // run the deployment script
-    exec("bash ./deploy.sh", (error, stdout, stderr) => {
+    exec("bash /var/www/IaaS-Setup/deploy.sh", (error, stdout, stderr) => {
       if (error) {
         console.error(`exec error: ${error}`);
         return;
