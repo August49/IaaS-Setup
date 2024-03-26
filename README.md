@@ -6,7 +6,7 @@ This repository contains a step-by-step setup for spinning up your own Virtual P
 
 
 
-Disclaimer: This guide is intended for informational purposes only and may be ideal if you are setting up a VPS instance for personal use or for a small-scale web application. If you are setting up an Infrastructure for a large-scale web application, you may need to consult with a professional sysadmin or DevOps engineer to ensure that your infrastructure is secure, scalable, and reliable.
+### Disclaimer: This guide is intended for informational purposes only and may be ideal if you are setting up a VPS instance for personal use or for a small-scale web application. If you are setting up an Infrastructure for a large-scale web application, you may need to consult with a professional sysadmin or DevOps engineer to ensure that your infrastructure is secure, scalable, and reliable.
 
 ## Prerequisites:
 
