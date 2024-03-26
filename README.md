@@ -6,9 +6,9 @@ This repository contains a step-by-step setup your own of a Virtual Private Serv
 
 
 
-Disclaimer: This guide is intended for informational purposes only and may ideal if you are setting up a VPS instance for personal use or for a small-scale web application. If you are setting up a VPS instance for a production environment or for a large-scale web application, you may need to consult with a professional sysadmin or DevOps engineer to ensure that your infrastructure is secure, scalable, and reliable.
+Disclaimer: This guide is intended for informational purposes only and may be ideal if you are setting up a VPS instance for personal use or for a small-scale web application. If you are setting up an Infrastructure for a large-scale web application, you may need to consult with a professional sysadmin or DevOps engineer to ensure that your infrastructure is secure, scalable, and reliable.
 
-Prerequisites:
+## Prerequisites:
 
 - A basic understanding of the Linux command line
 - A basic understanding of web servers and web applications
