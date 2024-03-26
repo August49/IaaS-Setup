@@ -1,5 +1,13 @@
 # Infrastructure as a Service (IaaS) Setup
 
+# Introduction
+
+This repository contains a step-by-step setup your own of a Virtual Private Server (VPS) instance that will be running Ubuntu 20.04.6 LTS for hosting web applications. 
+
+
+
+Disclaimer: This guide is intended for informational purposes only and may ideal if you are setting up a VPS instance for personal use or for a small-scale web application. If you are setting up a VPS instance for a production environment or for a large-scale web application, you may need to consult with a professional sysadmin or DevOps engineer to ensure that your infrastructure is secure, scalable, and reliable.
+
 Prerequisites:
 
 - A basic understanding of the Linux command line
@@ -32,13 +40,7 @@ Prerequisites:
 
 #### [Resources and references](#Introduction)
 
-# Introduction
 
-This repository contains a step-by-step setup your own of a Virtual Private Server (VPS) instance that will be running Ubuntu 20.04.6 LTS for hosting web applications. 
-
-
-
-Disclaimer: This guide is intended for informational purposes only and may ideal if you are setting up a VPS instance for personal use or for a small-scale web application. If you are setting up a VPS instance for a production environment or for a large-scale web application, you may need to consult with a professional sysadmin or DevOps engineer to ensure that your infrastructure is secure, scalable, and reliable.
 
 ## Setting up a Virtual Private Server (VPS) Instance (Ubuntu 20.04.6 LTS)
 
