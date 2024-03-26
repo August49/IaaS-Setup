@@ -50,7 +50,8 @@ Visit any cloud provider of your choice and create a virtual private server (VPS
 
 We won't be using the SDKs of the cloud providers to set up the VPS or any automation ( at least not too much of it), Instead will just buy a VPS instance from the cloud provider and use our local machine terminal to SSH into the server, then set up our infrastructure manually. That means most the steps can be done on any VPS instance regardless of the cloud provider. The manual setup can be time-consuming and error-prone, but it gives you more control over your infrastructure and helps you understand how things work under the hood.
 
-However, using the SDKs or command-line and other automation tools provided by these cloud providers can make the process of managing and automating your infrastructure much easier. Moreover, secure wise always use the industry-standard security tools to secure your infrastructure.
+However, using the SDKs or command-line and other automation tools provided by these cloud providers can make the process of managing and automating your infrastructure much easier. Security wise,  always use the industry-standard security tools to secure your infrastructure. Moreover, most of the things you will be doing manually can be automated and
+are already built into the cloud providers' services.
 
 Note: You can also use your own hardware if you have a spare machine lying around or can use a virtualization software like VirtualBox, VMware, or Proxmox to create a virtual machine on your own hardware, or containerization software like Docker.
 
