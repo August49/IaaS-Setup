@@ -2,7 +2,7 @@
 
 # Introduction
 
-This repository contains a step-by-step setup your own of a Virtual Private Server (VPS) instance that will be running Ubuntu 20.04.6 LTS for hosting web applications. 
+This repository contains a step-by-step setup for spinning up your own of a Virtual Private Server (VPS) instance that will be running Ubuntu 20.04.6 LTS for hosting web applications. 
 
 
 
